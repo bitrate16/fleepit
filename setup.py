@@ -1,16 +1,16 @@
 from setuptools import setup, find_packages
 
 setup(
-    name='fleep',
+    name='fleepit',
     version='1',
-    py_modules=['fleep'],
+    py_modules=['fleepit'],
     description='keyboard layout switcher based on xclip & other things',
-    url='https://git.pegasko.art/bitrate16/fleep',
+    url='https://git.pegasko.art/bitrate16/fleepit',
     author_email='pegasko@pegasko.art',
     license='AGPL 3.0',
     keywords='keyboard layout shortcut layout-switcher',
     entry_points='''
         [console_scripts]
-        fleep=fleep:main
+        fleepit=fleepit:main
     ''',
 )
