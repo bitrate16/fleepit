@@ -1,10 +1,19 @@
 from setuptools import setup, find_packages
 
+import pathlib
+try:
+    this_directory = pathlib.Path(__file__).parent
+    long_description = (this_directory / "README.md").read_text()
+    long_description_content_type = 'text/markdown'
+except:
+    long_description = None
+    long_description_content_type = None
+
 setup(
     name='fleepit',
-    version='1',
+    version='3',
     py_modules=['fleepit'],
-    description='keyboard layout switcher based on xclip & other things',
+    description='Text seleciton keyboard layout switcher based on xclip / etc for X11 & wayland',
     url='https://git.pegasko.art/bitrate16/fleepit',
     author_email='pegasko@pegasko.art',
     license='AGPL 3.0',
@@ -13,4 +22,6 @@ setup(
         [console_scripts]
         fleepit=fleepit:main
     ''',
+    long_description=long_description,
+    long_description_content_type=long_description_content_type,
 )

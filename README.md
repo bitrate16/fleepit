@@ -1,6 +1,6 @@
 # fleepit
 
-Keyboard layout switcher based on xclip / etc for X11 & wayland
+Text seleciton keyboard layout switcher based on xclip / etc for X11 & wayland
 
 # Install
 
