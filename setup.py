@@ -11,12 +11,12 @@ except:
 
 setup(
     name='fleepit',
-    version='3',
+    version='4',
     py_modules=['fleepit'],
     description='Text seleciton keyboard layout switcher based on xclip / etc for X11 & wayland',
     url='https://git.pegasko.art/bitrate16/fleepit',
     author_email='pegasko@pegasko.art',
-    license='AGPL 3.0',
+    license='Apache 2.0',
     keywords='keyboard layout shortcut layout-switcher',
     entry_points='''
         [console_scripts]

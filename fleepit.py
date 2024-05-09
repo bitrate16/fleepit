@@ -21,13 +21,14 @@ import typing
 
 LANGSETS = {
     'qwerty-en-ru': (
-        """`1234567890-=qwertyuiop[]\asdfghjkl;'zxcvbnm,./~!@#$%^&*()_+QWERTYUIOP{}|ASDFGHJKL:"ZXCVBNM<>?""",
-        """ё1234567890-=йцукенгшщзхъ\фывапролджэячсмитьбю.Ё!"№;%:?*()_+ЙЦУКЕНГШЩЗХЪ/ФЫВАПРОЛДЖЭЯЧСМИТЬБЮ,""",
+        r"""`1234567890-=qwertyuiop[]\asdfghjkl;'zxcvbnm,.~!@#$%^&*()_+QWERTYUIOP{}|ASDFGHJKL:"ZXCVBNM<>""",
+        r"""ё1234567890-=йцукенгшщзхъ\фывапролджэячсмитьбюЁ!"№;%:?*()_+ЙЦУКЕНГШЩЗХЪ/ФЫВАПРОЛДЖЭЯЧСМИТЬБЮ""",
     ),
 }
 
 
-def make_langset_dict(ls: typing.Tuple[str, str]) -> typing.Dict[str, str]:
+def make_langset_dict(langset: str) -> typing.Dict[str, str]:
+    ls = LANGSETS[langset]
     flipper = {}
     for (a, b) in zip(*ls):
         flipper[a] = b
@@ -45,15 +46,23 @@ def do_x11(args: argparse.Namespace):
     result.check_returncode()
     clip = result.stdout
     if clip.strip() == '':
+        if args.verbose:
+            print(f'clipboard is empty')
         return
+
+    if args.verbose:
+        print(f'clipboard: "{ clip }"')
 
     # Clear selection
     result = subprocess.run([ 'xclip', '-i', '-selection', 'primary' ], text=True, input='')
     result.check_returncode()
 
     # Do convert
-    conv = make_langset_dict(LANGSETS[args.langset])
+    conv = make_langset_dict(args.langset)
     converted = flip_langset(clip, conv)
+
+    if args.verbose:
+        print(f'converted: "{ converted }"')
 
     # Write selection
     result = subprocess.run([ 'xclip', '-i', '-selection', 'clipboard' ], text=True, input=converted)
@@ -74,6 +83,10 @@ def main():
             'wayland',
         ],
         required=True,
+    )
+    parser.add_argument(
+        '-v', '--verbose',
+        action='store_true',
     )
     parser.add_argument(
         '-l', '--langset',
