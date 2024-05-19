@@ -16,6 +16,21 @@ Sample usage for KDE:
 * Fill something like `fleepit --mode x11 --langset qwerty-en-ru`
 * Set some shortcut, for example `CTRL+` `
 
+# Langset file
+
+Sample langset file:
+
+```json
+
+{
+    "langset": [
+        "`1234567890-=qwertyuiop[]\\asdfghjkl;'zxcvbnm,.~!#%&*()_+QWERTYUIOP{}|ASDFGHJKL:\"ZXCVBNM<>",
+        "ё1234567890-=йцукенгшщзхъ\\фывапролджэячсмитьбюЁ!№%?*()_+ЙЦУКЕНГШЩЗХЪ/ФЫВАПРОЛДЖЭЯЧСМИТЬБЮ"
+    ]
+}
+
+```
+
 # Support
 
 Current list of language convertations:

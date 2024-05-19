@@ -17,20 +17,30 @@
 import subprocess
 import argparse
 import typing
+import json
 
 
+# Built-in langsets
 LANGSETS = {
     'qwerty-en-ru': (
-        r"""`1234567890-=qwertyuiop[]\asdfghjkl;'zxcvbnm,.~!@#$%^&*()_+QWERTYUIOP{}|ASDFGHJKL:"ZXCVBNM<>""",
-        r"""ё1234567890-=йцукенгшщзхъ\фывапролджэячсмитьбюЁ!"№;%:?*()_+ЙЦУКЕНГШЩЗХЪ/ФЫВАПРОЛДЖЭЯЧСМИТЬБЮ""",
+        r"""`1234567890-=qwertyuiop[]\asdfghjkl;'zxcvbnm,.~!#%&*()_+QWERTYUIOP{}|ASDFGHJKL:"ZXCVBNM<>""",
+        r"""ё1234567890-=йцукенгшщзхъ\фывапролджэячсмитьбюЁ!№%?*()_+ЙЦУКЕНГШЩЗХЪ/ФЫВАПРОЛДЖЭЯЧСМИТЬБЮ""",
     ),
 }
 
 
-def make_langset_dict(langset: str) -> typing.Dict[str, str]:
-    ls = LANGSETS[langset]
+def make_langset_dict(langset: typing.Tuple[str, str]) -> typing.Dict[str, str]:
     flipper = {}
-    for (a, b) in zip(*ls):
+
+    if len(langset) != 2 or len(langset[0]) != len(langset[1]):
+        raise ValueError("langset alternatives not matching")
+
+    for (a, b) in zip(*langset):
+        if a in flipper:
+            raise ValueError(f'alternative for "{ a }" already exists')
+        if b in flipper:
+            raise ValueError(f'alternative for "{ b }" already exists')
+
         flipper[a] = b
         flipper[b] = a
     return flipper
@@ -58,7 +68,11 @@ def do_x11(args: argparse.Namespace):
     result.check_returncode()
 
     # Do convert
-    conv = make_langset_dict(args.langset)
+    if args.langset:
+        conv = make_langset_dict(LANGSETS[args.langset])
+    else:
+        with open(args.langset_file, 'r') as f:
+            conv = make_langset_dict(json.load(f)['langset'])
     converted = flip_langset(clip, conv)
 
     if args.verbose:
@@ -82,17 +96,25 @@ def main():
             'x11',
             'wayland',
         ],
+        help='compositor compatibility mode',
         required=True,
     )
     parser.add_argument(
         '-v', '--verbose',
+        help='verbose logging ',
         action='store_true',
     )
-    parser.add_argument(
+    langset_group = parser.add_mutually_exclusive_group(required=True)
+    langset_group.add_argument(
         '-l', '--langset',
+        help='use one of embedded langsets',
         type=str,
         choices=list(LANGSETS.keys()),
-        required=True,
+    )
+    langset_group.add_argument(
+        '-f', '--langset-file',
+        help='use langset from json file containing',
+        type=str,
     )
     args = parser.parse_args()
 
