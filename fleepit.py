@@ -87,6 +87,35 @@ def do_x11(args: argparse.Namespace):
     result.check_returncode()
 
 
+def do_wayland(args: argparse.Namespace):
+    # Extract selection
+    result = subprocess.run([ 'wl-paste', '-primary' ], capture_output=True, text=True)
+    result.check_returncode()
+    clip = result.stdout
+    if clip.strip() == '':
+        if args.verbose:
+            print(f'clipboard is empty')
+        return
+
+    if args.verbose:
+        print(f'clipboard: "{ clip }"')
+
+    # Do convert
+    if args.langset:
+        conv = make_langset_dict(LANGSETS[args.langset])
+    else:
+        with open(args.langset_file, 'r') as f:
+            conv = make_langset_dict(json.load(f)['langset'])
+    converted = flip_langset(clip, conv)
+
+    if args.verbose:
+        print(f'converted: "{ converted }"')
+
+    # Write selection
+    result = subprocess.run([ 'wl-paste', '-primary' ], text=True, input=converted)
+    result.check_returncode()
+
+
 def main():
     parser = argparse.ArgumentParser('fleep')
     parser.add_argument(
@@ -120,6 +149,8 @@ def main():
 
     if args.mode == 'x11':
         do_x11(args)
+    elif args.mode == 'wayland':
+        do_wayland(args)
     else:
         raise NotImplementedError()
 

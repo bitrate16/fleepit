@@ -6,6 +6,7 @@ Text seleciton keyboard layout switcher based on xclip / etc for X11 & wayland
 
 1. Install required packages:
   * X11: `xclip`, `xdotool`
+  * Wayland: `wl-clipboard`
 
 2. install module: `pip install fleepit`
 
