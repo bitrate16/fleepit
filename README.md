@@ -15,7 +15,7 @@ Text seleciton keyboard layout switcher based on xclip / etc for X11 & wayland
 Sample usage for KDE:
 * Add custom program shortcut in settings
 * Fill something like `fleepit --mode x11 --langset qwerty-en-ru`
-* Set some shortcut, for example `CTRL+` `
+* Set some shortcut, for example `` CTRL+` ``
 
 # Langset file
 
