@@ -11,7 +11,7 @@ except:
 
 setup(
     name='fleepit',
-    version='6',
+    version='7',
     py_modules=['fleepit'],
     description='Text seleciton keyboard layout switcher based on xclip / etc for X11 & wayland',
     url='https://git.pegasko.art/bitrate16/fleepit',

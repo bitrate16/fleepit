@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# Requirements: xclip, xdotool
+# Requirements: xclip, xdotool (X11); wl-clipboard (Wayland)
 
 import subprocess
 import argparse
@@ -89,7 +89,7 @@ def do_x11(args: argparse.Namespace):
 
 def do_wayland(args: argparse.Namespace):
     # Extract selection
-    result = subprocess.run([ 'wl-paste', '-primary' ], capture_output=True, text=True)
+    result = subprocess.run([ 'wl-paste', '--primary', '--no-newline' ], capture_output=True, text=True)
     result.check_returncode()
     clip = result.stdout
     if clip.strip() == '':
@@ -112,7 +112,7 @@ def do_wayland(args: argparse.Namespace):
         print(f'converted: "{ converted }"')
 
     # Write selection
-    result = subprocess.run([ 'wl-paste', '-primary' ], text=True, input=converted)
+    result = subprocess.run([ 'wl-copy' ], text=True, input=converted)
     result.check_returncode()
 
 

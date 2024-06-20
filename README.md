@@ -10,6 +10,22 @@ Text seleciton keyboard layout switcher based on xclip / etc for X11 & wayland
 
 2. install module: `pip install fleepit`
 
+# Limitations
+
+## X11
+
+Operation is performed in 3 steps:
+* copy - copy selection buffer (primary clipboard)
+* paste - write converted selection buffer into secondary (regular) clipboard
+* send CTRL+C event
+
+## Wayland
+
+Operation is performed in 3 steps with limitations
+* copy - reads contents of primary buffer
+* paste - write converted selection into secondary (regular) clipboard
+* user has to manually press CTRL+C - for the security reasons and/or in order to prevent depending on external daemon services that may expose potential keystroke injection vulnerabilities
+
 # Usage
 
 Sample usage for KDE:
