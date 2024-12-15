@@ -24,4 +24,5 @@ setup(
     ''',
     long_description=long_description,
     long_description_content_type=long_description_content_type,
+    packages=find_packages(),
 )

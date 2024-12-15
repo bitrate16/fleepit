@@ -1,6 +1,6 @@
 # fleepit
 
-Text seleciton keyboard layout switcher based on xclip / etc for X11 & wayland
+Text selection keyboard layout switcher based on xclip / etc for X11 & Wayland
 
 # Install
 
@@ -8,7 +8,15 @@ Text seleciton keyboard layout switcher based on xclip / etc for X11 & wayland
   * X11: `xclip`, `xdotool`
   * Wayland: `wl-clipboard`
 
-2. install module: `pip install fleepit`
+2. Install module: `pip install fleepit`
+
+## With Nix:
+
+Use this repository as a flake, or install imperatively:
+
+```sh
+nix profile install github:bitrate16/fleepit
+```
 
 # Limitations
 
@@ -17,14 +25,14 @@ Text seleciton keyboard layout switcher based on xclip / etc for X11 & wayland
 Operation is performed in 3 steps:
 * copy - copy selection buffer (primary clipboard)
 * paste - write converted selection buffer into secondary (regular) clipboard
-* send CTRL+C event
+* send CTRL+V event
 
 ## Wayland
 
-Operation is performed in 3 steps with limitations
+Operation is performed in 3 steps with limitations:
 * copy - reads contents of primary buffer
 * paste - write converted selection into secondary (regular) clipboard
-* user has to manually press CTRL+C - for the security reasons and/or in order to prevent depending on external daemon services that may expose potential keystroke injection vulnerabilities
+* user has to manually press CTRL+V - for security reasons and/or to prevent depending on external daemon services that may expose potential keystroke injection vulnerabilities
 
 # Usage
 
@@ -52,3 +60,4 @@ Sample langset file:
 
 Current list of language convertations:
 * QWERTY: EN <> RU
+* COLEMAK: EN <> RU
